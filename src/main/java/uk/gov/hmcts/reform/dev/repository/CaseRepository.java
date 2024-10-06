@@ -4,11 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import uk.gov.hmcts.reform.dev.models.Case;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.List;
 
 @Repository
-public interface CaseRepository extends JpaRepository<Case, UUID> {
-    Optional<Case> findByCaseNumber(String caseNumber);
-    Case findCaseById(UUID caseid);
+public interface CaseRepository extends JpaRepository<Case, Long> {
+    Case findByCaseNumber(String caseNumber);
+
+    List<Case> findByTitle(String title);
+
+    List<Case> findByDescription(String description);
 }

@@ -1,14 +1,19 @@
 package uk.gov.hmcts.reform.dev.service;
+
+import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.models.Case;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ICaseService {
-    CaseDTO addNewCase(Case ca);
-    CaseDTO getCase(UUID caseid);
-    List<CaseDTO> getAllCases();
-    boolean deleteCase(UUID caseid);
-    boolean updateCase();
+    ResponseEntity<CaseDTO> addNewCase(Case ca);
+
+    ResponseEntity<CaseDTO> getCase(long id);
+
+    ResponseEntity<List<CaseDTO>> getAllCases(String title);
+
+    ResponseEntity<Boolean> deleteCase(long id);
+
+    ResponseEntity<CaseDTO> updateCase(long id, Case ca);
 }

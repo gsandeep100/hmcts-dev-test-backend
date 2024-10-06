@@ -1,10 +1,6 @@
 package uk.gov.hmcts.reform.dev.models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -19,22 +15,24 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(name="Cases")
+@Table(name = "Cases")
 public class Case implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    private String caseNumber;
-    private String title;
-    private String description;
-    private String status;
-    private LocalDateTime createdDate;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    /*public Case(String caseNumber, String caseTitle, String caseDescription, String caseStatus) {
-        this.caseNumber = caseNumber;
-        this.title = caseTitle;
-        this.description = caseDescription;
-        this.status = caseStatus;
-        this.createdDate = LocalDateTime.now();
-    }*/
+    @Column(name = "caseNumber")
+    private String caseNumber;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "createdDate")
+    private LocalDateTime createdDate;
 }

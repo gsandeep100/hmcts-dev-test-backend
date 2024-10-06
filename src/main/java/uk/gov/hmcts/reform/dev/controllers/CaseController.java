@@ -2,17 +2,19 @@ package uk.gov.hmcts.reform.dev.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.service.ICaseService;
 import uk.gov.hmcts.reform.dev.models.Case;
+
 import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
+@RequestMapping("/cases")
 public class CaseController {
     private final ICaseService service;
 
@@ -21,53 +23,49 @@ public class CaseController {
         this.service = service;
     }
 
-    /*@GetMapping(value = "/get-example-case", produces = "application/json")
-    public ResponseEntity<Case> getExampleCase() {
-        return ok(new Case(1, "ABC12345", "Case Title",
-                                  "Case Description", "Case Status", LocalDateTime.now()
-        ));
-    }*/
-
     /**
-     *
      * @param ca requestBody
      * @return newly created Case
      */
-    @PostMapping (value = "/cases/addNewCase")
-    public CaseDTO newCase(@RequestBody Case ca) {
-        //return service.addNewCase(new Case("ABC12345", "Case Title","Case Description", "Case Status"));
+    @PostMapping(value = "/addNewCase")
+    public ResponseEntity<CaseDTO> newCase(@RequestBody Case ca) {
         return service.addNewCase(ca);
     }
 
     /**
-     *
-     * @param model
+     * @param title
      * @return
      */
-    @GetMapping(value = "/cases", produces = "application/json")
-    public ResponseEntity<List<CaseDTO>> getCases(Model model) {
-        List<CaseDTO> dto = service.getAllCases();
-        model.addAttribute("cases", dto);
-        return ok(dto);
+    @GetMapping
+    public ResponseEntity<List<CaseDTO>> getCases(@RequestParam(required = false) String title) {
+        return service.getAllCases(title);
     }
 
     /**
-     *
-     * @param caseid unique identifier
+     * @param id unique identifier
      * @return Case Model Object
      */
-    @GetMapping(value = "/cases/{id}", produces = "application/json")
-    public ResponseEntity<CaseDTO> getCase(@RequestParam("caseid") UUID caseid) {
-        return ok(service.getCase(caseid));
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CaseDTO> getCase(@PathVariable("id") long id) {
+        return service.getCase(id);
     }
 
     /**
-     *
-     * @param caseid
+     * @param id
      * @return
      */
-    @PostMapping(value = "/cases/{id}", produces = "application/json")
-    public ResponseEntity<Boolean> deleteCase(@RequestParam("caseid") UUID caseid) {
-        return ok(service.deleteCase(caseid));
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Boolean> deleteCase(@PathVariable("id") long id) {
+        return service.deleteCase(id);
+    }
+
+    /**
+     * @param id
+     * @param ca
+     * @return
+     */
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CaseDTO> updateCase(@PathVariable("id") long id, @RequestBody Case ca) {
+        return service.updateCase(id, ca);
     }
 }
