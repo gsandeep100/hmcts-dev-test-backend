@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.models.Case;
 import uk.gov.hmcts.reform.dev.repository.CaseRepository;
@@ -82,6 +83,7 @@ public class CaseServiceImpl implements ICaseService {
 
     @Override
     public ResponseEntity<CaseDTO> updateCase(long id, Case ca) {
+        try {
         Optional<Case> cas = repository.findById(id);
         if (cas.isPresent()) {
             Case _ca = cas.get();
@@ -93,6 +95,10 @@ public class CaseServiceImpl implements ICaseService {
             return new ResponseEntity<>(mapToCaseDTO(repository.save(_ca)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        }catch(Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
