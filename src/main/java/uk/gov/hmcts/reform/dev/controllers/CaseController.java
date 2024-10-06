@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.service.ICaseService;
 import uk.gov.hmcts.reform.dev.models.Case;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
