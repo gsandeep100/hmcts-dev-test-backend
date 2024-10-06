@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.service.ICaseService;
 import uk.gov.hmcts.reform.dev.models.Case;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +19,8 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/cases")
 public class CaseController {
+    private static final Logger logger = LogManager.getLogger(CaseController.class);
+
     private final ICaseService service;
 
     @Autowired
