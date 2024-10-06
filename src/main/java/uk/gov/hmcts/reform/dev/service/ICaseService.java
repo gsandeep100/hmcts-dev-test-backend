@@ -1,14 +1,14 @@
 package uk.gov.hmcts.reform.dev.service;
-import org.springframework.cache.annotation.Cacheable;
+import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.models.Case;
 
 import java.util.List;
+import java.util.UUID;
 
-@Cacheable
 public interface ICaseService {
-//    Void newCase(Case case);
-//    Case getCase(int caseid);
-//    List<Case> getCases();
-//    boolean deleteCase();
-//    boolean updateCase();
+    public CaseDTO addNewCase(Case ca);
+    public CaseDTO getCase(UUID caseid);
+    public List<CaseDTO> getAllCases();
+    public boolean deleteCase(UUID caseid);
+    public boolean updateCase();
 }

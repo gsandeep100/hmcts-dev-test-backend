@@ -6,7 +6,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Data
@@ -14,14 +18,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name="Cases")
-public class Case {
+public class Case implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String caseNumber;
     private String title;
     private String description;
     private String status;
     private LocalDateTime createdDate;
+
+    /*public Case(String caseNumber, String caseTitle, String caseDescription, String caseStatus) {
+        this.caseNumber = caseNumber;
+        this.title = caseTitle;
+        this.description = caseDescription;
+        this.status = caseStatus;
+        this.createdDate = LocalDateTime.now();
+    }*/
 }

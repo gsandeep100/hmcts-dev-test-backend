@@ -8,9 +8,9 @@ management:
   endpoint:
     health:
       show-details: "always"
-      group:
-         readiness:
-         include: "db"
+#      group:
+#         readiness:
+#         include: "db"
   endpoints:
     web:
       base-path: /
@@ -25,12 +25,10 @@ spring:
   config:
     import: "optional:configtree:/mnt/secrets/test/"
   application:
-    name: Dev Test
+    name: Manage Cases
   datasource:
-    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
-    username: sandeep
-    password: test
+    driver-class-name: org.postgresql.Driver
     properties:
       charSet: UTF-8
     hikari:
@@ -43,11 +41,11 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgresSQLDialect
         jdbc:
           lob:
             # silence the 'wall-of-text' - unnecessary exception throw about blob types
             non_contextual_creation: true
         hbm2ddl:
           auto: update
+        format_sql: true
     show-sql: true

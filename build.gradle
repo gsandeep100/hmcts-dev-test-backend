@@ -150,14 +150,16 @@ ext {
 ext['snakeyaml.version'] = '2.2'
 
 dependencies {
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.3.4'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.3.4'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.3.4'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json', version: '3.3.4'
   implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
-  implementation group: 'jakarta.persistence', name: 'jakarta.persistence-api', version: '3.0.0'
-  implementation group: 'org.hibernate', name: 'hibernate-annotations', version: '3.5.6-Final'
+  implementation group: 'jakarta.persistence', name: 'jakarta.persistence-api', version: '3.1.0'
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.4'
+  implementation group: 'org.hibernate', name: 'hibernate-core', version: '6.5.3.Final'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.3.4'
+
   implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.1.6'
@@ -167,8 +169,8 @@ dependencies {
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
   implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
 
-  implementation group: 'io.rest-assured', name: 'rest-assured'
-  implementation group: 'org.projectlombok', name: 'lombok'
+  implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.5.0'
+  implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.34'
   annotationProcessor 'org.projectlombok:lombok'
 
   testImplementation(platform('org.junit:junit-bom:5.11.1'))
