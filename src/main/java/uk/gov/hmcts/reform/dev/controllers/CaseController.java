@@ -2,6 +2,9 @@ package uk.gov.hmcts.reform.dev.controllers;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
@@ -11,19 +14,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.UUID;
 
-import static org.springframework.http.ResponseEntity.ok;
 
-@CrossOrigin(origins = "http://localhost:8081")
+//@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/cases")
+@ComponentScan("uk.gov.hmcts.reform.dev,uk.gov.hmcts.reform.dev.repository.CaseRepository,uk.gov.hmcts.reform.dev.service.CaseServiceImpl")
+
 public class CaseController {
     private static final Logger logger = LogManager.getLogger(CaseController.class);
 
     private final ICaseService service;
 
-    @Autowired
+    @Autowired()
     public CaseController(ICaseService service) {
         this.service = service;
     }
@@ -34,6 +37,7 @@ public class CaseController {
      */
     @PostMapping(value = "/addNewCase")
     public ResponseEntity<CaseDTO> newCase(@RequestBody Case ca) {
+        logger.info("new case created ");
         return service.addNewCase(ca);
     }
 
@@ -51,8 +55,22 @@ public class CaseController {
      * @return Case Model Object
      */
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CaseDTO> getCase(@PathVariable("id") long id) {
+    public ResponseEntity<CaseDTO> getCaseById(@PathVariable("id") long id) {
         return service.getCase(id);
+    }
+
+    /**
+     * @param casenumber
+     * @return
+     */
+    @GetMapping(value = "/{casenumber}")
+    public ResponseEntity<CaseDTO> getCaseByCaseNumber(@PathVariable("casenumber") String casenumber) {
+        return service.getCaseByCaseNumber(casenumber);
+    }
+
+    @GetMapping(value = "/{description}")
+    public ResponseEntity<List<CaseDTO>> getCaseByDescription(@PathVariable("description") String description) {
+        return service.getCaseByDescription(description);
     }
 
     /**
