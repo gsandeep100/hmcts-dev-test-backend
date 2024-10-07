@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
+import uk.gov.hmcts.reform.dev.repository.CaseRepository;
 import uk.gov.hmcts.reform.dev.service.ICaseService;
 import uk.gov.hmcts.reform.dev.models.Case;
 import org.apache.logging.log4j.LogManager;
@@ -16,19 +18,18 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 
-//@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@Component
 //@RequestMapping("/cases")
-@ComponentScan("uk.gov.hmcts.reform.dev.*")
+//@ComponentScan("uk.gov.hmcts.reform.dev.*")
 
 public class CaseController {
     private static final Logger logger = LogManager.getLogger(CaseController.class);
 
-    @Autowired()
-    @Qualifier("ICaseService")
     private final ICaseService service;
 
-    public CaseController(ICaseService service) {
+    public CaseController(@Qualifier("Service") ICaseService service) {
         this.service = service;
     }
 

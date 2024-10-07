@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.dev.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,14 +19,20 @@ import java.util.stream.Collectors;
 import static org.springframework.http.ResponseEntity.ok;
 
 
-@Service("ICaseService")
-@AutoConfigureAfter(value = {
-    ICaseService.class})
+
+/*@AutoConfigureAfter(value = {
+    ICaseService.class})*/
+@Service
 public class CaseServiceImpl implements ICaseService {
     private static final Logger logger = LogManager.getLogger(CaseServiceImpl.class);
-    private final CaseRepository repository;
 
-    @Autowired(required = true)
+    @Autowired
+    private CaseRepository repository;
+
+    public CaseServiceImpl() {
+    }
+
+    @Autowired
     public CaseServiceImpl(CaseRepository repository) {
         this.repository = repository;
     }
