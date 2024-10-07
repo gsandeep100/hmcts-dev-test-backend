@@ -18,15 +18,16 @@ import java.util.List;
 
 //@CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/cases")
-@ComponentScan("uk.gov.hmcts.reform.dev,uk.gov.hmcts.reform.dev.repository.CaseRepository,uk.gov.hmcts.reform.dev.service.CaseServiceImpl")
+//@RequestMapping("/cases")
+@ComponentScan("uk.gov.hmcts.reform.dev.*")
 
 public class CaseController {
     private static final Logger logger = LogManager.getLogger(CaseController.class);
 
+    @Autowired()
+    @Qualifier("ICaseService")
     private final ICaseService service;
 
-    @Autowired()
     public CaseController(ICaseService service) {
         this.service = service;
     }
@@ -35,7 +36,7 @@ public class CaseController {
      * @param ca requestBody
      * @return newly created Case
      */
-    @PostMapping(value = "/addNewCase")
+    @PostMapping(value = "/cases/addNewCase")
     public ResponseEntity<CaseDTO> newCase(@RequestBody Case ca) {
         logger.info("new case created ");
         return service.addNewCase(ca);
@@ -45,7 +46,7 @@ public class CaseController {
      * @param title
      * @return
      */
-    @GetMapping
+    @GetMapping(value = "/cases")
     public ResponseEntity<List<CaseDTO>> getCases(@RequestParam(required = false) String title) {
         return service.getAllCases(title);
     }
@@ -54,7 +55,7 @@ public class CaseController {
      * @param id unique identifier
      * @return Case Model Object
      */
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/cases/{id}")
     public ResponseEntity<CaseDTO> getCaseById(@PathVariable("id") long id) {
         return service.getCase(id);
     }
@@ -63,12 +64,12 @@ public class CaseController {
      * @param casenumber
      * @return
      */
-    @GetMapping(value = "/{casenumber}")
+    @GetMapping(value = "/cases/{casenumber}")
     public ResponseEntity<CaseDTO> getCaseByCaseNumber(@PathVariable("casenumber") String casenumber) {
         return service.getCaseByCaseNumber(casenumber);
     }
 
-    @GetMapping(value = "/{description}")
+    @GetMapping(value = "/cases/{description}")
     public ResponseEntity<List<CaseDTO>> getCaseByDescription(@PathVariable("description") String description) {
         return service.getCaseByDescription(description);
     }
@@ -77,7 +78,7 @@ public class CaseController {
      * @param id
      * @return
      */
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/cases/{id}")
     public ResponseEntity<Boolean> deleteCase(@PathVariable("id") long id) {
         return service.deleteCase(id);
     }
@@ -87,7 +88,7 @@ public class CaseController {
      * @param ca
      * @return
      */
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/cases/{id}")
     @Transactional
     public ResponseEntity<CaseDTO> updateCase(@PathVariable("id") long id, @RequestBody Case ca) {
         return service.updateCase(id, ca);
