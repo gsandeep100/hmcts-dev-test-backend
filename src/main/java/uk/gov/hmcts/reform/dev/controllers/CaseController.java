@@ -29,6 +29,7 @@ public class CaseController {
 
     private final ICaseService service;
 
+    @Autowired
     public CaseController(@Qualifier("Service") ICaseService service) {
         this.service = service;
     }

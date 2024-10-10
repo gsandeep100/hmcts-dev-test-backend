@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.models.Case;
@@ -38,6 +39,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CaseDTO> addNewCase(Case ca) {
         try {
             CaseDTO dto = mapToCaseDTO(repository.save(ca));
@@ -51,6 +53,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CaseDTO> getCase(long id) {
         try {
             CaseDTO dto = mapToCaseDTO(repository.findById(id));
@@ -64,6 +67,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CaseDTO> getCaseByCaseNumber(String casenumber) {
         try {
             CaseDTO dto = mapToCaseDTO(repository.findByCaseNumber(casenumber));
@@ -77,6 +81,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<CaseDTO>> getCaseByDescription(String description) {
         try {
             List<CaseDTO> dto = new ArrayList<CaseDTO>();
@@ -92,6 +97,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<CaseDTO>> getAllCases(String title) {
         try {
             List<CaseDTO> dto = new ArrayList<CaseDTO>();
@@ -111,6 +117,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Boolean> deleteCase(long id) {
         try {
             repository.deleteById(id);
@@ -121,6 +128,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CaseDTO> updateCase(long id, Case ca) {
         try {
             Optional<Case> cas = repository.findById(id);
