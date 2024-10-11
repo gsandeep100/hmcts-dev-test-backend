@@ -3,10 +3,10 @@ package uk.gov.hmcts.reform.dev.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.models.Case;
@@ -20,19 +20,26 @@ import java.util.stream.Collectors;
 import static org.springframework.http.ResponseEntity.ok;
 
 
-@Service("ICaseService")
-@AutoConfigureAfter(value = {
-    ICaseService.class})
+
+/*@AutoConfigureAfter(value = {
+    ICaseService.class})*/
+@Service
 public class CaseServiceImpl implements ICaseService {
     private static final Logger logger = LogManager.getLogger(CaseServiceImpl.class);
-    private final CaseRepository repository;
 
-    @Autowired(required = true)
+    @Autowired
+    private CaseRepository repository;
+
+    public CaseServiceImpl() {
+    }
+
+    @Autowired
     public CaseServiceImpl(CaseRepository repository) {
         this.repository = repository;
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CaseDTO> addNewCase(Case ca) {
         try {
             CaseDTO dto = mapToCaseDTO(repository.save(ca));
@@ -46,6 +53,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CaseDTO> getCase(long id) {
         try {
             CaseDTO dto = mapToCaseDTO(repository.findById(id));
@@ -59,6 +67,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CaseDTO> getCaseByCaseNumber(String casenumber) {
         try {
             CaseDTO dto = mapToCaseDTO(repository.findByCaseNumber(casenumber));
@@ -72,6 +81,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<CaseDTO>> getCaseByDescription(String description) {
         try {
             List<CaseDTO> dto = new ArrayList<CaseDTO>();
@@ -87,6 +97,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<CaseDTO>> getAllCases(String title) {
         try {
             List<CaseDTO> dto = new ArrayList<CaseDTO>();
@@ -106,6 +117,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Boolean> deleteCase(long id) {
         try {
             repository.deleteById(id);
@@ -116,6 +128,7 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<CaseDTO> updateCase(long id, Case ca) {
         try {
             Optional<Case> cas = repository.findById(id);

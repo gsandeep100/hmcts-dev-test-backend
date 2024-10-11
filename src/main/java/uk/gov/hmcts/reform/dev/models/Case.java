@@ -19,9 +19,10 @@ import java.util.UUID;
 public class Case implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
 
-    @Column(name = "caseNumber")
+    @Column(name = "casenumber")
     private String caseNumber;
 
     @Column(name = "title")

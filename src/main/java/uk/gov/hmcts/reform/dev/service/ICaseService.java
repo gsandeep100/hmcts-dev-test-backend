@@ -7,7 +7,7 @@ import uk.gov.hmcts.reform.dev.models.Case;
 
 import java.util.List;
 
-@Service
+//@Service
 public interface ICaseService {
     ResponseEntity<CaseDTO> addNewCase(Case ca);
 
