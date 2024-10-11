@@ -1,0 +1,11 @@
+node_modules
+Dockerfile
+target
+conf/
+libraries/
+plugins/
+.idea/
+*.iml
+*.iws
+target/
+!README.md
