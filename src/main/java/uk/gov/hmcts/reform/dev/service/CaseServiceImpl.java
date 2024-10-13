@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -21,9 +20,6 @@ import java.util.stream.Collectors;
 import static org.springframework.http.ResponseEntity.ok;
 
 
-
-/*@AutoConfigureAfter(value = {
-    ICaseService.class})*/
 @Service
 @Transactional
 public class CaseServiceImpl implements ICaseService {
@@ -88,7 +84,11 @@ public class CaseServiceImpl implements ICaseService {
     public ResponseEntity<List<CaseDTO>> getCaseByDescription(String description) {
         try {
             List<CaseDTO> dto = new ArrayList<CaseDTO>();
-            dto = repository.findByDescription(description).stream().map(this::mapToCaseDTO).collect(Collectors.toList());
+            dto = repository
+                .findByDescription(description)
+                .stream()
+                .map(this::mapToCaseDTO)
+                .collect(Collectors.toList());
             ;
             if (dto.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -136,13 +136,13 @@ public class CaseServiceImpl implements ICaseService {
         try {
             Optional<Case> cas = repository.findById(id);
             if (cas.isPresent()) {
-                Case _ca = cas.get();
-                _ca.setTitle(ca.getTitle());
-                _ca.setCaseNumber(ca.getCaseNumber());
-                _ca.setStatus(ca.getStatus());
-                _ca.setCreatedDate(ca.getCreatedDate());
-                _ca.setDescription(ca.getDescription());
-                return new ResponseEntity<>(mapToCaseDTO(repository.save(_ca)), HttpStatus.OK);
+                Case localCa = cas.get();
+                localCa.setTitle(ca.getTitle());
+                localCa.setCaseNumber(ca.getCaseNumber());
+                localCa.setStatus(ca.getStatus());
+                localCa.setCreatedDate(ca.getCreatedDate());
+                localCa.setDescription(ca.getDescription());
+                return new ResponseEntity<>(mapToCaseDTO(repository.save(localCa)), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
