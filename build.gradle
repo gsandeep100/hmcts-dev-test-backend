@@ -144,7 +144,7 @@ repositories {
 
 ext {
   log4JVersion = "2.24.1"
-  logbackVersion = "1.5.8"
+  logbackVersion = "1.5.9"
 }
 
 ext['snakeyaml.version'] = '2.2'
@@ -175,7 +175,7 @@ dependencies {
   implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.34'
   annotationProcessor 'org.projectlombok:lombok'
 
-  testImplementation(platform('org.junit:junit-bom:5.11.1'))
+  testImplementation(platform('org.junit:junit-bom:5.11.2'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
   testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
     exclude group: 'junit', module: 'junit'
