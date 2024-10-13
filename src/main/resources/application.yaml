@@ -7,12 +7,11 @@ server:
 management:
   endpoint:
     health:
-      show-details: "always"
-  #      group:
-  #         readiness:
-  #         include: "db"
+        group:
+           readiness:
+              include: "db"
+        show-details: "always"
   endpoints:
-    web:
       base-path: /
       exposure:
         include: info # should we have more?
@@ -48,4 +47,5 @@ spring:
         hbm2ddl:
           auto: update
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true

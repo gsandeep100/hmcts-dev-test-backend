@@ -20,7 +20,7 @@ public class Case implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private long id;
+    private UUID id;
 
     @Column(name = "casenumber")
     private String caseNumber;

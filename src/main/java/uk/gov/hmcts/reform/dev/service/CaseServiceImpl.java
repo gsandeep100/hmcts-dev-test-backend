@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -24,11 +25,13 @@ import static org.springframework.http.ResponseEntity.ok;
 /*@AutoConfigureAfter(value = {
     ICaseService.class})*/
 @Service
+@Transactional
 public class CaseServiceImpl implements ICaseService {
     private static final Logger logger = LogManager.getLogger(CaseServiceImpl.class);
 
     @Autowired
     private CaseRepository repository;
+
 
     public CaseServiceImpl() {
     }
@@ -56,7 +59,7 @@ public class CaseServiceImpl implements ICaseService {
     @Transactional
     public ResponseEntity<CaseDTO> getCase(long id) {
         try {
-            CaseDTO dto = mapToCaseDTO(repository.findById(id));
+            CaseDTO dto = mapToCaseDTO(repository.findById(id).orElseThrow());
             if (dto == null) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -161,7 +164,7 @@ public class CaseServiceImpl implements ICaseService {
             .build();
     }
 
-    private CaseDTO mapToCaseDTO(Optional<Case> ca) {
+    /*private CaseDTO mapToCaseDTO(Optional<Case> ca) {
         return CaseDTO.builder()
             .id(ca.orElseThrow().getId())
             .title(ca.orElseThrow().getTitle())
@@ -170,5 +173,5 @@ public class CaseServiceImpl implements ICaseService {
             .createdDate(ca.orElseThrow().getCreatedDate())
             .status(ca.orElseThrow().getStatus())
             .build();
-    }
+    }*/
 }

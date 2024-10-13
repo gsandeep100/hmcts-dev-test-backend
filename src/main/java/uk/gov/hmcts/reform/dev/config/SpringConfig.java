@@ -9,7 +9,7 @@ import uk.gov.hmcts.reform.dev.service.ICaseService;
 public class SpringConfig {
 
     @Bean
-    public ICaseService Service() {
+    public ICaseService ICaseService() {
         return new CaseServiceImpl();
     }
 

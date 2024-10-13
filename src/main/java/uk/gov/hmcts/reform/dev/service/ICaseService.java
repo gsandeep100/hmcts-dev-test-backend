@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.dev.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
@@ -7,7 +8,8 @@ import uk.gov.hmcts.reform.dev.models.Case;
 
 import java.util.List;
 
-//@Service
+@Service
+@Transactional
 public interface ICaseService {
     ResponseEntity<CaseDTO> addNewCase(Case ca);
 

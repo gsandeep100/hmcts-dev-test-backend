@@ -5,11 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
 public class CaseDTO {
-    private long id;
+    private UUID id;
     @NotEmpty(message = "Case number should not be empty")
     private String caseNumber;
     @NotEmpty(message = "Case title should not be empty")
