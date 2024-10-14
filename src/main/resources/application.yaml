@@ -37,6 +37,8 @@ spring:
       #poolName: {to-be-defined}HikariCP
       maxLifetime: 7200000
       connectionTimeout: 30000
+    username: postgres
+    password: postgres
   jpa:
     properties:
       hibernate:
