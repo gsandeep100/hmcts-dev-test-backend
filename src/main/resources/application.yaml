@@ -1,5 +1,5 @@
 server:
-  port: 4000
+  port: 8083
   shutdown: "graceful"
 
 # If you want to use a database then uncomment the `group:, readiness: and include: "db"`
@@ -26,7 +26,8 @@ spring:
   application:
     name: Manage Cases
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+#    url: jdbc:postgresql://postgres-container:5432/postgres # for docker-compose
+    url: jdbc:postgresql://localhost:5432/postgres # for local testing
     driver-class-name: org.postgresql.Driver
     properties:
       charSet: UTF-8
@@ -38,7 +39,7 @@ spring:
       maxLifetime: 7200000
       connectionTimeout: 30000
     username: postgres
-    password: postgres
+    password: Password
   jpa:
     properties:
       hibernate:
@@ -47,7 +48,7 @@ spring:
             # silence the 'wall-of-text' - unnecessary exception throw about blob types
             non_contextual_creation: true
         hbm2ddl:
-          auto: update
+          auto: create-drop
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true

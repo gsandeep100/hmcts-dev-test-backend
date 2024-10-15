@@ -62,9 +62,12 @@ tasks.withType(JavaCompile) {
   options.compilerArgs << "-Xlint:unchecked" << "-Werror"
 }
 
+//configuring JavaLauncher to match the toolchain
 // https://github.com/gradle/gradle/issues/16791
 tasks.withType(JavaExec).configureEach {
-  javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
+  javaLauncher.set(javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(21)
+  })
 }
 
 tasks.withType(Test) {
@@ -160,6 +163,8 @@ dependencies {
   implementation group: 'org.hibernate', name: 'hibernate-core', version: '6.5.3.Final'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.3.4'
 
+  implementation 'org.springframework.boot:spring-boot-starter-security' // for security
+
   implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.1.6'
@@ -180,6 +185,7 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+  testImplementation 'org.springframework.security:spring-security-test' // for testing security
 }
 
 mainClassName = 'uk.gov.hmcts.reform.dev.Application'

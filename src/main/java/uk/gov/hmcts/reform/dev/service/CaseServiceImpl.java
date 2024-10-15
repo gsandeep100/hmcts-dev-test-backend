@@ -14,20 +14,18 @@ import uk.gov.hmcts.reform.dev.repository.CaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-
 @Service
-@Transactional
 public class CaseServiceImpl implements ICaseService {
     private static final Logger logger = LogManager.getLogger(CaseServiceImpl.class);
 
     @Autowired
     private CaseRepository repository;
-
 
     public CaseServiceImpl() {
     }
@@ -52,26 +50,24 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<CaseDTO> getCase(long id) {
         try {
-            CaseDTO dto = mapToCaseDTO(repository.findById(id).orElseThrow());
-            if (dto == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+            CaseDTO dto = mapToCaseDTO(repository.findById(id).orElseThrow(() -> new NoSuchElementException(
+                "Case not found")));
             return ok(dto);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    @Transactional
     public ResponseEntity<CaseDTO> getCaseByCaseNumber(String casenumber) {
         try {
             CaseDTO dto = mapToCaseDTO(repository.findByCaseNumber(casenumber));
             if (dto == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return ok(dto);
         } catch (Exception e) {
@@ -80,18 +76,15 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<List<CaseDTO>> getCaseByDescription(String description) {
         try {
-            List<CaseDTO> dto = new ArrayList<CaseDTO>();
-            dto = repository
+            List<CaseDTO> dto = repository
                 .findByDescription(description)
                 .stream()
                 .map(this::mapToCaseDTO)
                 .collect(Collectors.toList());
-            ;
             if (dto.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return ok(dto);
         } catch (Exception e) {
@@ -100,11 +93,9 @@ public class CaseServiceImpl implements ICaseService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<List<CaseDTO>> getAllCases(String title) {
         try {
-            List<CaseDTO> dto = new ArrayList<CaseDTO>();
-
+            List<CaseDTO> dto = new ArrayList<>();
             if (title == null) {
                 dto = repository.findAll().stream().map(this::mapToCaseDTO).collect(Collectors.toList());
             } else {
@@ -152,7 +143,6 @@ public class CaseServiceImpl implements ICaseService {
         }
     }
 
-
     private CaseDTO mapToCaseDTO(Case ca) {
         return CaseDTO.builder()
             .id(ca.getId())
@@ -163,15 +153,4 @@ public class CaseServiceImpl implements ICaseService {
             .status(ca.getStatus())
             .build();
     }
-
-    /*private CaseDTO mapToCaseDTO(Optional<Case> ca) {
-        return CaseDTO.builder()
-            .id(ca.orElseThrow().getId())
-            .title(ca.orElseThrow().getTitle())
-            .caseNumber(ca.orElseThrow().getCaseNumber())
-            .description(ca.orElseThrow().getDescription())
-            .createdDate(ca.orElseThrow().getCreatedDate())
-            .status(ca.orElseThrow().getStatus())
-            .build();
-    }*/
 }
