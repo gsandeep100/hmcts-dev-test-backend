@@ -14,7 +14,7 @@ version = '0.0.1'
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(23)
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
 
@@ -66,7 +66,7 @@ tasks.withType(JavaCompile) {
 // https://github.com/gradle/gradle/issues/16791
 tasks.withType(JavaExec).configureEach {
   javaLauncher.set(javaToolchains.launcherFor {
-    languageVersion = JavaLanguageVersion.of(23)
+    languageVersion = JavaLanguageVersion.of(21)
   })
 }
 
@@ -164,6 +164,9 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.3.4'
 
   implementation 'org.springframework.boot:spring-boot-starter-security' // for security
+  implementation 'org.springframework.boot:spring-boot-starter-validation' // for validation
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+
 
   implementation 'org.springframework.boot:spring-boot-configuration-processor'
 

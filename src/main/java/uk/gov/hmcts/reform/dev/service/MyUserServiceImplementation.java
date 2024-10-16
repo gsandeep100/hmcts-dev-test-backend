@@ -63,8 +63,9 @@ public class MyUserServiceImplementation implements IUserService {
         MyUser user = userRepository.findByEmail(email);
         if (user != null) {
             return user;
-        } else {
+        } /*else {
             throw new Exception("User not found");
-        }
+        }*/
+        return user;
     }
 }
