@@ -48,7 +48,7 @@ spring:
             # silence the 'wall-of-text' - unnecessary exception throw about blob types
             non_contextual_creation: true
         hbm2ddl:
-          auto: create-drop
+          auto: update
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
