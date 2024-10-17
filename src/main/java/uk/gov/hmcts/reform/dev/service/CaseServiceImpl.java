@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import uk.gov.hmcts.reform.dev.dto.CaseDTO;
 import uk.gov.hmcts.reform.dev.models.Case;
 import uk.gov.hmcts.reform.dev.repository.CaseRepository;
@@ -15,7 +14,6 @@ import uk.gov.hmcts.reform.dev.repository.CaseRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.ok;
@@ -124,23 +122,7 @@ public class CaseServiceImpl implements ICaseService {
     @Override
     @Transactional
     public ResponseEntity<CaseDTO> updateCase(long id, Case ca) {
-        try {
-            Optional<Case> cas = repository.findById(id);
-            if (cas.isPresent()) {
-                Case localCa = cas.get();
-                localCa.setTitle(ca.getTitle());
-                localCa.setCaseNumber(ca.getCaseNumber());
-                localCa.setStatus(ca.getStatus());
-                localCa.setCreatedDate(ca.getCreatedDate());
-                localCa.setDescription(ca.getDescription());
-                return new ResponseEntity<>(mapToCaseDTO(repository.save(localCa)), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return null;
     }
 
     private CaseDTO mapToCaseDTO(Case ca) {

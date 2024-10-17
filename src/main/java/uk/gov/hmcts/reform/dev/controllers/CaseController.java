@@ -5,8 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +37,7 @@ public class CaseController {
      * @param ca the request body containing case details
      * @return the newly created CaseDTO wrapped in ResponseEntity
      */
-    @Secured("ROLE_ADMIN")
+    //@Secured("ROLE_ADMIN")
     @PostMapping(value = "/cases/addNewCase")
     public ResponseEntity<CaseDTO> newCase(@RequestBody Case ca) {
         logger.info("New case created.");
@@ -96,7 +94,7 @@ public class CaseController {
      * @param id the unique identifier of the case to be deleted
      * @return a boolean indicating success or failure wrapped in ResponseEntity
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/cases/{id}")
     public ResponseEntity<Boolean> deleteCase(@PathVariable("id") long id) {
         return service.deleteCase(id);
@@ -109,7 +107,7 @@ public class CaseController {
      * @param ca the request body containing updated case details
      * @return the updated CaseDTO object wrapped in ResponseEntity
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/cases/{id}")
     @Transactional
     public ResponseEntity<CaseDTO> updateCase(@PathVariable("id") long id, @RequestBody Case ca) {
